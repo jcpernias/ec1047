@@ -11,3 +11,5 @@ Description: This package provides code and datasets to be used
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/jcpernias/ec1047
+BugReports: https://github.com/jcpernias/ec1047/issues
