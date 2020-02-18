@@ -1,0 +1,13 @@
+Package: ec1047
+Title: Code and data for the EC1047 course
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "José",
+           family = "Pernías",
+           role = c("aut", "cre"),
+           email = "jcpernias@gmail.com")
+Description: This package provides code and datasets to be used 
+  in the EC1047: Economics of the Public Sector course. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
