@@ -26,3 +26,9 @@ test_that("weights", {
   w <- c(10, 5, 7, 4, 6)
   expect_equal(gini(rep(y, times = w)), gini(y, w))
 })
+
+test_that("generalized index: numerical simple example", {
+  y <- 1:5
+  expect_equal(gini(y, v = 3), 0.32)
+})
+

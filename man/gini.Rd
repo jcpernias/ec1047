@@ -4,12 +4,14 @@
 \alias{gini}
 \title{Compute Gini coefficient}
 \usage{
-gini(y, w)
+gini(y, w, v = 2)
 }
 \arguments{
 \item{y}{numerical vector}
 
 \item{w}{numerical vector with weights for each observation}
+
+\item{v}{numerical scalar, degree of inequality aversion}
 }
 \value{
 a scalar
