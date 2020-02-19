@@ -15,13 +15,14 @@ gini <- function(y, w, v = 2) {
 
   if (missing(w)) {
     x <- (1:n) / n
-    yo_mean <- mean(yo)
-    C <- mean((yo - yo_mean) * (1 - x)^(v - 1))
+    y_mean <- mean(yo)
+    z <- (yo - y_mean) / n
   } else {
     wo <- w[oidx] / sum(w)
     x <- wo / 2 + c(0, cumsum(wo)[-n])
-    yo_mean <- sum(yo * wo)
-    C <- sum(wo * (yo - yo_mean) * (1 - x)^(v - 1))
+    y_mean <- sum(yo * wo)
+    z <- wo * (yo - y_mean)
   }
-  -v * C / yo_mean
+  G <- -v * sum(z * (1 - x)^(v - 1)) / y_mean
+  G
 }
