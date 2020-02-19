@@ -8,7 +8,6 @@
 #' @return a scalar
 #' @export
 gini <- function(y, w) {
-  # TODO: duplicate values in y?
   n <- length(y)
   oidx <- order(y)
   yo <- y[oidx]

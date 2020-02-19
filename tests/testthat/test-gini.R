@@ -14,3 +14,15 @@ test_that("numerical simple example", {
   y <- 1:5
   expect_equal(gini(y), 8 / 30)
 })
+
+test_that("trivial weights", {
+  y <- 1:5
+  w <- rep_len(10, length(y))
+  expect_equal(gini(y), gini(y, w))
+})
+
+test_that("weights", {
+  y <- 1:5
+  w <- c(10, 5, 7, 4, 6)
+  expect_equal(gini(rep(y, times = w)), gini(y, w))
+})
