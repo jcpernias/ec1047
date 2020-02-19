@@ -9,3 +9,8 @@ test_that("extreme concentration", {
   y <- c(rep(0, n - 1), n - 1)
   expect_equal(gini(y), 1 - 1 / n)
 })
+
+test_that("numerical simple example", {
+  y <- 1:5
+  expect_equal(gini(y), 8 / 30)
+})
