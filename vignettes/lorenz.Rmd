@@ -1,0 +1,60 @@
+---
+title: "Plotting Lorenz curves"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plotting Lorenz curves}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyverse)
+library(ec1047)
+```
+
+# The data
+
+We are going to use two vectors:
+```{r vectors}
+y1 <- c(2417, 7800, 8489, 10072, 12957)
+y2 <- c(4417, 7800, 9989, 10572, 8957)
+```
+
+Compute the coordinates of the Lorenz curves:
+```{r curves}
+lorenz_y1 <- lorenz(y1)
+lorenz_y2 <- lorenz(y2)
+```
+
+Merge the databases:
+```{r merge}
+lorenz_all <- bind_rows(lorenz_y1 %>% add_column(Variable = "y1"), 
+                        lorenz_y2 %>% add_column(Variable = "y2"))
+```
+
+
+# The plot
+
+Use ggplot2 to plot the Lorenz curves:
+```{r plot, fig.width=5, fig.asp=1, fig.align="center"}
+lorenz_all %>% 
+  ggplot(aes(x = x, y = y, color = Variable)) + 
+  geom_line() + 
+  geom_line(data = tibble(x = c(0, 1), y = c(0, 1)), color = 'black') + 
+  coord_fixed() +
+  scale_x_continuous(limits = c(0, 1), breaks = (0:5)/5) + 
+  scale_y_continuous(limits = c(0, 1), breaks = (0:5)/5) +
+  theme_classic() +
+  theme(axis.title.y = element_text(angle = 0),
+        panel.grid.major = element_line(color = "gray95"),
+        panel.grid.minor = element_line(color = "gray85", size = 0.1))  
+```
+
+ 
