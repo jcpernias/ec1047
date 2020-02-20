@@ -12,8 +12,7 @@ lorenz(z, w)
 \item{w}{a numerical vector with the same length as \code{z}.}
 }
 \value{
-a [tibble][tibble::tibble-package] with the coordinates
-of the Lorenz curve.
+a [tibble][tibble::tibble-package] with the coordinates of the Lorenz curve.
 }
 \description{
 Compute the coordinates of the Lorenz curve for the distribution

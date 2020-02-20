@@ -6,9 +6,8 @@
 #'
 #' @param z a numerical vector.
 #' @param w a numerical vector with the same length as \code{z}.
-#' @return a [tibble][tibble::tibble-package] with the coordinates
-#' of the Lorenz curve.
-
+#' @return a [tibble][tibble::tibble-package] with the coordinates of the Lorenz curve.
+#' @export
 lorenz <- function(z, w) {
   n <- length(z)
   oidx <- order(z)
