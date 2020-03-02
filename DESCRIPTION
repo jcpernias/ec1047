@@ -8,6 +8,7 @@ Authors@R:
            email = "jcpernias@gmail.com")
 Description: This package provides code and datasets to be used 
   in the EC1047: Economics of the Public Sector course. 
+Depends: R (>= 2.10)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
