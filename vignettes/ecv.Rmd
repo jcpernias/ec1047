@@ -1,0 +1,80 @@
+---
+title: "The ecv dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The ecv dataset}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tibble)
+library(lubridate)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(kableExtra)
+library(ec1047)
+```
+
+# Variables
+```{r}
+str(ecv)
+```
+
+# Disposable income
+
+A relatively small number of observations have negative or zero values of disposable income:
+```{r}
+ecv %>% filter(ydisp_hh <= 0.0) %>% 
+  group_by(year) %>% summarise(n = n())
+```
+
+Drop observations with zero or negative disposable income. Also drop observations from Ceuta y Melilla:
+```{r}
+income_db <- ecv %>% 
+  filter(ydisp_hh > 0.0, !(region %in% c("CEU", "MEL")))
+```
+
+Mean household income by year:
+```{r}
+income_db %>% group_by(year) %>%
+  summarise(y_mean = weighted.mean(ydisp_hh, weight))
+```
+
+Mean disposable income per person by year:
+```{r}
+income_db %>%
+  mutate(year = make_date(year = year)) %>% 
+  group_by(year) %>%
+  summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) %>%
+  ggplot(aes(x = year, y = y_mean)) + 
+  geom_line() + 
+  scale_x_date()
+```
+
+Mean disposable income per person by year and region:
+```{r}
+y_mean_esp <- income_db %>% group_by(year) %>%
+  summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) %>%
+  mutate(region = "ESP")
+
+y_mean_reg <- income_db %>%
+  mutate(region = as.character(region)) %>% 
+  group_by(region, year) %>%
+  summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) 
+
+bind_rows(y_mean_reg, y_mean_esp)%>%
+  pivot_wider(names_from = year, values_from = y_mean) %>%
+  kable(digits = 0) %>%
+  kable_styling(bootstrap_options = c('striped', 'hover'), 
+                full_width = FALSE)
+```
+
