@@ -70,10 +70,18 @@ y_mean_reg <- income_db %>%
   group_by(region, year) %>%
   summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) 
 
-bind_rows(y_mean_reg, y_mean_esp)%>%
+bind_rows(y_mean_reg, y_mean_esp) %>%
   pivot_wider(names_from = year, values_from = y_mean) %>%
   kable(digits = 0) %>%
   kable_styling(bootstrap_options = c('striped', 'hover'), 
                 full_width = FALSE)
+```
+
+Some graphics:
+```{r}
+y_mean_reg %>%
+  mutate(year = make_date(year = year)) %>%
+  ggplot(aes(x=year, y = y_mean)) +
+  geom_line() + facet_wrap(~ region, nrow = 4)
 ```
 
