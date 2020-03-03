@@ -56,8 +56,7 @@ income_db %>%
   group_by(year) %>%
   summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) %>%
   ggplot(aes(x = year, y = y_mean)) + 
-  geom_line() + 
-  scale_x_date()
+  geom_line()
 ```
 
 Mean disposable income per person by year and region:
