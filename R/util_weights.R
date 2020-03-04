@@ -60,7 +60,6 @@ w_quantile <- function(x, w, p, na.rm = FALSE) {
 #'
 #' @param x a numerical vector.
 #' @param w a numerical vector of weights the same length as \code{x}.
-#' Missing values
 #' @param na.rm if \code{TRUE}, drop NAs in \code{x}
 #' @return the weighted mean of \code{x}
 #' @noRd
