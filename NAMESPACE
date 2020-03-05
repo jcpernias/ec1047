@@ -2,4 +2,7 @@
 
 export(gini)
 export(lorenz)
+export(wtd_mean)
+export(wtd_median)
+export(wtd_quantile)
 importFrom(tibble,tibble)

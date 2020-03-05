@@ -46,15 +46,15 @@ income_db <- ecv %>%
 Mean household income by year:
 ```{r}
 income_db %>% group_by(year) %>%
-  summarise(y_mean = weighted.mean(ydisp_hh, weight))
+  summarise(y_mean = wtd_mean(ydisp_hh, weight))
 ```
 
 Mean disposable income per person by year:
 ```{r}
 income_db %>%
-  mutate(year = make_date(year = year)) %>% 
+  mutate(year = lubridate::make_date(year = year)) %>% 
   group_by(year) %>%
-  summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) %>%
+  summarise(y_mean = wtd_mean(ydisp_cu, weight * people)) %>%
   ggplot(aes(x = year, y = y_mean)) + 
   geom_line()
 ```
@@ -62,13 +62,13 @@ income_db %>%
 Mean disposable income per person by year and region:
 ```{r}
 y_mean_esp <- income_db %>% group_by(year) %>%
-  summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) %>%
+  summarise(y_mean = wtd_mean(ydisp_cu, weight * people)) %>%
   mutate(region = "ESP")
 
 y_mean_reg <- income_db %>%
   mutate(region = as.character(region)) %>% 
   group_by(region, year) %>%
-  summarise(y_mean = weighted.mean(ydisp_cu, weight * people)) 
+  summarise(y_mean = wtd_mean(ydisp_cu, weight * people)) 
 
 bind_rows(y_mean_reg, y_mean_esp) %>%
   pivot_wider(names_from = year, values_from = y_mean) %>%
@@ -80,7 +80,7 @@ bind_rows(y_mean_reg, y_mean_esp) %>%
 Some graphics:
 ```{r}
 y_mean_reg %>%
-  mutate(year = make_date(year = year)) %>%
+  mutate(year = lubridate::make_date(year = year)) %>%
   ggplot(aes(x=year, y = y_mean)) +
   geom_line() + facet_wrap(~ region, nrow = 4)
 ```

@@ -23,5 +23,8 @@ Suggests:
     knitr,
     rmarkdown,
     ggplot2,
-    dplyr
+    dplyr,
+    lubridate,
+    tidyr,
+    kableExtra
 VignetteBuilder: knitr
