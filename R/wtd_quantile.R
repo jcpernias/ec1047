@@ -41,18 +41,22 @@ wtd_quantile <- function(x, probs, weights = NULL, na.rm = FALSE) {
   if (length(x) != length(weights))
     stop("'x' and 'weights' must have the same length")
 
-
   if (anyNA(weights))
     return(rep(c(x[0], NA), length(probs)))
 
   # Observations with non-zero weight
   i <- !(weights == 0)
+  if (any(i)) {
+    x <- x[i]
+    weights <- weights[i]
+  }
 
   # Flag NAs
-  if (na.rm) {
-    i <- i & !is.na(x)
-  } else if (anyNA(x)) {
-    return(rep(c(x[0], NA), length(probs)))
+  i <- !is.na(x)
+
+  if (!all(i)) {
+    if (na.rm == FALSE)
+      return(rep(c(x[0], NA), length(probs)))
   }
 
   result <- Hmisc::wtd.quantile(x[i], weights = weights[i],
