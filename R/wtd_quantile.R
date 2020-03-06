@@ -28,6 +28,11 @@ wtd_quantile <- function(x, probs, weights = NULL, na.rm = FALSE) {
     return(numeric(0))
   }
 
+  na_probs <- is.na(probs)
+  num_na_probs <- sum(na_probs)
+  if (num_na_probs)
+    probs <- probs[!na_probs]
+
   rg <- range(probs)
   if (rg[1] < 0 | rg[2] > 1)
     stop("Probabilities out of bounds")
@@ -59,7 +64,14 @@ wtd_quantile <- function(x, probs, weights = NULL, na.rm = FALSE) {
       return(rep(c(x[0], NA), length(probs)))
   }
 
-  result <- Hmisc::wtd.quantile(x[i], weights = weights[i],
-                                probs = probs, na.rm = FALSE)
-  unname(result)
+  q <- Hmisc::wtd.quantile(x[i], weights = weights[i],
+                           probs = probs, na.rm = FALSE)
+  names(q) <- NULL
+
+  if (!num_na_probs)
+    return(q)
+
+  result <- rep(NA_real_, length(na_probs))
+  result[!na_probs] <- q
+  result
 }
