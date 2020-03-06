@@ -21,6 +21,9 @@
 #' @family weighted statistics
 #' @export
 wtd_quantile <- function(x, probs, weights = NULL, na.rm = FALSE) {
+  if (length(probs) == 0) {
+    return(numeric(0))
+  }
   if (is.null(weights)) {
     if (anyNA(x))
       return(rep(c(x[0], NA), length(probs)))
