@@ -21,9 +21,17 @@
 #' @family weighted statistics
 #' @export
 wtd_quantile <- function(x, probs, weights = NULL, na.rm = FALSE) {
+  if (missing(probs))
+    stop("Missing probabilities")
+
   if (length(probs) == 0) {
     return(numeric(0))
   }
+
+  rg <- range(probs)
+  if (rg[1] < 0 | rg[2] > 1)
+    stop("Probabilities out of bounds")
+
   if (is.null(weights)) {
     if (anyNA(x))
       return(rep(c(x[0], NA), length(probs)))
@@ -33,11 +41,6 @@ wtd_quantile <- function(x, probs, weights = NULL, na.rm = FALSE) {
   if (length(x) != length(weights))
     stop("'x' and 'weights' must have the same length")
 
-  if (missing(probs))
-    stop("Missing probabilities")
-  rg <- range(probs)
-  if (rg[1] < 0 | rg[2] > 1)
-    stop("Probabilities out of bounds")
 
   if (anyNA(weights))
     return(rep(c(x[0], NA), length(probs)))
