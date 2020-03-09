@@ -21,10 +21,30 @@
 #' @export
 wtd_mean <- function(x, weights = NULL, na.rm = FALSE) {
   checkmate::qassert(na.rm, 'B1')
-  checkmate::qassert(x, 'n+')
+  checkmate::qassert(x, 'n')
   if (checkmate::qtest(weights, '0')) {
-    return(stats::weighted.mean(x, na.rm = na.rm))
+    if (na.rm)
+      x <- x[!is.na(x)]
+    return(sum(x) / length(x))
   }
+
   checkmate::assert_numeric(weights, len = length(x))
-  stats::weighted.mean(x, weights, na.rm = na.rm)
+
+  if (any(is.na(weights)))
+    return(NA_real_)
+
+  # Drop observations with zero weights
+  idx <- weights != 0
+  if (any(!idx)) {
+    x <- x[idx]
+    weights <- weights[idx]
+  }
+
+  if (na.rm) {
+    idx <- !is.na(x)
+    x <- x[idx]
+    weights <- weights[idx]
+  }
+  weights <- weights / sum(weights)
+  sum(weights * x)
 }
