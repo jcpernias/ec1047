@@ -17,7 +17,8 @@ BugReports: https://github.com/jcpernias/ec1047/issues
 RoxygenNote: 7.0.2
 Imports: 
     tibble,
-    Hmisc
+    Hmisc,
+    checkmate
 Suggests: 
     testthat (>= 2.1.0),
     knitr,

@@ -20,8 +20,11 @@
 #' @family weighted statistics
 #' @export
 wtd_mean <- function(x, weights = NULL, na.rm = FALSE) {
-  if (is.null(weights)) {
+  checkmate::qassert(na.rm, 'B1')
+  checkmate::qassert(x, 'n+')
+  if (checkmate::qtest(weights, '0')) {
     return(stats::weighted.mean(x, na.rm = na.rm))
   }
+  checkmate::assert_numeric(weights, len = length(x))
   stats::weighted.mean(x, weights, na.rm = na.rm)
 }
