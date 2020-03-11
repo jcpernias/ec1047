@@ -32,3 +32,23 @@ test_that("generalized index: numerical simple example", {
   expect_equal(gini(y, v = 3), 0.32)
 })
 
+test_that("NA values in arguments", {
+  y <- 1:5
+  w <- 5:1
+
+  y_NA <- c(1:4, NA)
+  w_NA <- c(5:2, NA)
+  expect_true(is.na(gini(y_NA)))
+  expect_true(is.na(gini(y, w_NA)))
+  expect_true(is.na(gini(y_NA, w)))
+  expect_error(gini(y, w, NA))
+  expect_error(gini(y, w_NA, NA))
+})
+
+test_that("zero weights", {
+  y <- c(1:5, NA)
+  w <- c(5:1, 0)
+  expect_equal(gini(y, w), gini(y[1:5], w[1:5]))
+})
+
+
