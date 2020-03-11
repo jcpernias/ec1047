@@ -4,7 +4,7 @@
 \alias{wtd_quantile}
 \title{Weighted quantiles}
 \usage{
-wtd_quantile(x, probs, weights = NULL, na.rm = FALSE)
+wtd_quantile(x, probs, weights = NULL)
 }
 \arguments{
 \item{x}{a numerical vector.}
@@ -12,12 +12,9 @@ wtd_quantile(x, probs, weights = NULL, na.rm = FALSE)
 \item{probs}{a numerical vector with the quantile probabilities.}
 
 \item{weights}{a numerical vector of weights the same length as \code{x}.}
-
-\item{na.rm}{a logical value indicating wether \code{NA} values in \code{x}
-should be stripped before the computation.}
 }
 \value{
-The weighted quantiles of \code{x}
+A \code{numeric} vector with the weighted quantiles of \code{x}.
 }
 \description{
 Compute the quantiles of \code{x} weighted by \code{weights}.
@@ -25,8 +22,8 @@ Compute the quantiles of \code{x} weighted by \code{weights}.
 \details{
 If \code{weights} is \code{NULL}, all elements of \code{x} receive the
 same weight. Observations with zero weights are omitted from the
-computation. Missing values in \code{w} are not handled specially and
-produce a missing value as the result.
+computation. Missing values are not handled specially and
+produce missing values as the result.
 }
 \examples{
 wtd_quantile(1:5, weights = 5:1, probs = (1:4)/5)

@@ -4,15 +4,12 @@
 \alias{wtd_median}
 \title{Weighted median}
 \usage{
-wtd_median(x, weights = NULL, na.rm = FALSE)
+wtd_median(x, weights = NULL)
 }
 \arguments{
 \item{x}{a numerical vector.}
 
 \item{weights}{a numerical vector of weights the same length as \code{x}.}
-
-\item{na.rm}{a logical value indicating wether \code{NA} values in \code{x}
-should be stripped before the computation.}
 }
 \value{
 The weighted median of \code{x}.
@@ -23,7 +20,7 @@ Compute the median of \code{x} weighted by \code{weights}.
 \details{
 If \code{weights} is \code{NULL}, all elements of \code{x} receive the
 same weight. Observations with zero weights are omitted from the
-computation. Missing values in \code{w} are not handled specially and
+computation. Missing values are not handled specially and
 produce a missing value as the result.
 }
 \examples{

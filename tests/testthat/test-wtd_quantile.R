@@ -38,11 +38,6 @@ test_that("NA values in x", {
   p <- (1:4)/5
 
   expect_true(all(is.na(wtd_quantile(x, probs = p, weights = w))))
-  expected <-
-    unname(stats::quantile(rep(x, times = w), p, na.rm = TRUE))
-  expect_equal(wtd_quantile(x, probs = p,
-                            weights = w, na.rm = TRUE),
-               expected)
 })
 
 test_that("NA values in w", {
@@ -50,6 +45,4 @@ test_that("NA values in w", {
   w <- c(NA, 4, 3, 2, 1)
   p <- (1:4)/5
   expect_true(all(is.na(wtd_quantile(x, probs = p, weights = w))))
-  expect_true(all(is.na(wtd_quantile(x, weights = w,
-                                     probs = p, na.rm = TRUE))))
 })
