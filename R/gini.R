@@ -16,6 +16,11 @@
 #'
 #' @return A numeric scalar.
 #'
+#' @examples
+#' gini(1:5)
+#' gini(1:5, weights = 5:1)
+#' gini(1:5, weights = 5:1, v = 3)
+#'
 #' @export
 gini <- function(y, weights = NULL, v = 2) {
   checkmate::qassert(y, 'n+')
