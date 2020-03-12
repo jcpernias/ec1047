@@ -18,9 +18,18 @@
 #'
 #' @family weighted statistics
 #' @export
+
 wtd_quantile <- function(x, probs, weights = NULL) {
-  checkmate::qassert(probs, "N+[0, 1]")
+  checkmate::qassert(probs, "n[0, 1]")
   n_probs <- length(probs)
+  if (n_probs == 0)
+    return(numeric())
+
+  na_probs <- is.na(probs)
+  num_na_probs <- sum(na_probs)
+  if (num_na_probs)
+    probs <- probs[!na_probs]
+
   checkmate::qassert(x, "n")
   if (checkmate::qtest(weights, "0")) {
     if (!length(x) || anyNA(x))
@@ -40,7 +49,13 @@ wtd_quantile <- function(x, probs, weights = NULL) {
   if (anyNA(x))
     return(rep(c(x[0], NA), n_probs))
 
-  result <- Hmisc::wtd.quantile(x, weights = weights,
-                                probs = probs, na.rm = FALSE)
-  unname(result)
+  q <- unname(Hmisc::wtd.quantile(x, weights = weights,
+                                  probs = probs, na.rm = FALSE))
+
+  if (!num_na_probs)
+    return(q)
+
+  result <- rep(NA_real_, length(na_probs))
+  result[!na_probs] <- q
+  result
 }

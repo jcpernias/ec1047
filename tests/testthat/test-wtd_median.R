@@ -33,3 +33,10 @@ test_that("NA values in w", {
   w <- c(NA, 4, 3, 2, 1)
   expect_true(is.na(wtd_median(x, weights = w)))
 })
+
+test_that("NA values with zero weight", {
+  x <- c(NA, 2, 3, 4, 5)
+  w <- c(0, 4, 3, 2, 1)
+  expect_equal(wtd_median(x, weights = w), 3)
+})
+
