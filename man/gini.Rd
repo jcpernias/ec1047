@@ -4,19 +4,33 @@
 \alias{gini}
 \title{Compute Gini coefficient}
 \usage{
-gini(y, w, v = 2)
+gini(y, weights = NULL, v = 2)
 }
 \arguments{
-\item{y}{numerical vector}
+\item{y}{numerical vector.}
 
-\item{w}{numerical vector with weights for each observation}
+\item{weights}{numerical vector of the same length as \code{y}
+with weights for each observation.}
 
-\item{v}{numerical scalar, degree of inequality aversion}
+\item{v}{numerical scalar, degree of inequality aversion. It
+should be non-negative.}
 }
 \value{
-a scalar
+A numeric scalar.
 }
 \description{
-Compute the Gini coefficient of the distribution
-of \code{y}, with weights \code{w}.
+Compute the generalized Gini coefficient of the distribution
+of \code{y} with weights \code{weights}. The parameter \code{v}
+is the degree of risk aversion. By default, this parameter equals
+2 which corresponds with the original Gini coefficient.
+}
+\details{
+Observations with zero weights are discarded before the
+computations begin.
+}
+\examples{
+gini(1:5)
+gini(1:5, weights = 5:1)
+gini(1:5, weights = 5:1, v = 3)
+
 }
