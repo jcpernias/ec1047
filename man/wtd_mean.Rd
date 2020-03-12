@@ -19,8 +19,8 @@ Compute the mean of \code{x} weighted by \code{weights}.
 }
 \details{
 If \code{weights} is \code{NULL}, all elements of \code{x} receive the
-same weight. Observations with zero weights are omitted from the
-computation. Missing values are not handled specially and
+same weight. Observations with zero weights are omitted before the mean
+is computed. Missing values are not handled specially and
 produce a missing value as the result.
 }
 \examples{
