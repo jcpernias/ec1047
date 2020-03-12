@@ -60,3 +60,27 @@ wtd_quantile <- function(x, probs, weights = NULL) {
   result[valid_probs] <- q
   result
 }
+
+# x <- sample(1:10, 50, TRUE)
+# tbl <- unsafe_table(x)
+# cw <- cumsum(tbl$w) / sum(tbl$w)
+# cbind(tbl$x, tbl$w, cumsum(tbl$w), cw)
+# quantile(x, (1:4)/5)
+# unsafe_unweighted_quantile(x, (1:4)/5)
+
+unsafe_unweighted_quantile <- function(x, probs) {
+  tbl <- unsafe_table(x)
+  cw <- cumsum(tbl$w) / sum(tbl$w)
+  approx(cw, tbl$x, probs, rule = 2)
+}
+
+unsafe_table <- function(x) {
+  x <- sort(x)
+  n_x <- length(x)
+  d_x <- x[-1] != x[-n_x]
+  if (sum(d_x) == n_x - 1)
+    return(list(x = x, w = rep(1, n_x)))
+  idx <- c(which(d_x), n_x)
+  idx_1 <- c(0, idx[-length(idx)])
+  list(x = x[idx], w = idx - idx_1)
+}
