@@ -36,7 +36,7 @@ wtd_quantile <- function(x, probs, weights = NULL) {
   n_x <- length(x)
   if (n_x == 0)
     return(result)
-  if (checkmate::qtest(weights, "0")) {
+  if (is.null(weights)) {
     if (anyNA(x))
       return(result)
     q <- stats::quantile(x, probs = probs, na.rm = FALSE, names = FALSE)
@@ -46,7 +46,7 @@ wtd_quantile <- function(x, probs, weights = NULL) {
       return(result)
 
     nonzero_weights <- weights != 0
-    if (any(!nonzero_weights)) {
+    if (!all(nonzero_weights)) {
       x <- x[nonzero_weights]
       weights <- weights[nonzero_weights]
     }
