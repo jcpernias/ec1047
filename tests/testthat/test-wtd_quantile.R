@@ -60,6 +60,10 @@ test_that("NA probabilities", {
   p <- c(0.5, NA)
   q <- wtd_quantile(x, probs = p, weights = w)
   expect_true(q[1] == 2 && is.na(q[2]))
+  q <- wtd_quantile(x, probs = p)
+  expect_true(q[1] == 3 && is.na(q[2]))
+  q <- wtd_quantile(x, c(NA, NA))
+  expect_true(length(q) == 2 && all(is.na(q)))
 })
 
 test_that("zero-length probabilities", {

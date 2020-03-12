@@ -20,42 +20,40 @@
 #' @export
 
 wtd_quantile <- function(x, probs, weights = NULL) {
-  checkmate::qassert(probs, "n[0, 1]")
   n_probs <- length(probs)
   if (n_probs == 0)
     return(numeric())
 
-  na_probs <- is.na(probs)
-  num_na_probs <- sum(na_probs)
-  if (num_na_probs)
-    probs <- probs[!na_probs]
+  result <- rep(NA_real_, n_probs)
 
+  valid_probs <- !is.na(probs)
+  if (!any(valid_probs))
+    return(result)
+  probs <- probs[valid_probs]
+
+  checkmate::qassert(probs, "n[0, 1]")
   checkmate::qassert(x, "n")
   if (checkmate::qtest(weights, "0")) {
     if (!length(x) || anyNA(x))
-      return(rep(c(x[0], NA), n_probs))
-    return(stats::quantile(x, probs = probs, na.rm = FALSE, names = FALSE))
+      return(result)
+    q <- stats::quantile(x, probs = probs, na.rm = FALSE, names = FALSE)
+  } else {
+    checkmate::assert_numeric(weights, len = length(x))
+    if (!length(weights) || anyNA(weights))
+      return(result)
+
+    idx <- weights != 0
+    if (any(!idx)) {
+      x <- x[idx]
+      weights <- weights[idx]
+    }
+    if (anyNA(x))
+      return(result)
+
+    q <- unname(Hmisc::wtd.quantile(x, weights = weights,
+                                    probs = probs, na.rm = FALSE))
   }
 
-  checkmate::assert_numeric(weights, len = length(x))
-  if (!length(weights) || anyNA(weights))
-    return(rep(c(x[0], NA), n_probs))
-
-  idx <- weights != 0
-  if (any(!idx)) {
-    x <- x[idx]
-    weights <- weights[idx]
-  }
-  if (anyNA(x))
-    return(rep(c(x[0], NA), n_probs))
-
-  q <- unname(Hmisc::wtd.quantile(x, weights = weights,
-                                  probs = probs, na.rm = FALSE))
-
-  if (!num_na_probs)
-    return(q)
-
-  result <- rep(NA_real_, length(na_probs))
-  result[!na_probs] <- q
+  result[valid_probs] <- q
   result
 }
