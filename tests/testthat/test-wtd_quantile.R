@@ -30,6 +30,8 @@ test_that("zero weight", {
 
   expect_equal(wtd_quantile(x, probs = p, weights = w),
                wtd_quantile(x[-1], probs = p, weights = w[-1]))
+  expect_true(all(is.na(wtd_quantile(x, probs = p,
+                                     weights = rep(0, 5)))))
 })
 
 test_that("NA values in x", {

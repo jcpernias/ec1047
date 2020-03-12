@@ -33,21 +33,24 @@ wtd_quantile <- function(x, probs, weights = NULL) {
 
   checkmate::qassert(probs, "n[0, 1]")
   checkmate::qassert(x, "n")
+  n_x <- length(x)
+  if (n_x == 0)
+    return(result)
   if (checkmate::qtest(weights, "0")) {
-    if (!length(x) || anyNA(x))
+    if (anyNA(x))
       return(result)
     q <- stats::quantile(x, probs = probs, na.rm = FALSE, names = FALSE)
   } else {
-    checkmate::assert_numeric(weights, len = length(x))
-    if (!length(weights) || anyNA(weights))
+    checkmate::assert_numeric(weights, len = n_x)
+    if (anyNA(weights))
       return(result)
 
-    idx <- weights != 0
-    if (any(!idx)) {
-      x <- x[idx]
-      weights <- weights[idx]
+    nonzero_weights <- weights != 0
+    if (any(!nonzero_weights)) {
+      x <- x[nonzero_weights]
+      weights <- weights[nonzero_weights]
     }
-    if (anyNA(x))
+    if (length(x) == 0 || anyNA(x))
       return(result)
 
     q <- unname(Hmisc::wtd.quantile(x, weights = weights,
