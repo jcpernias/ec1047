@@ -61,17 +61,26 @@ wtd_quantile <- function(x, probs, weights = NULL) {
   result
 }
 
-# x <- sample(1:10, 50, TRUE)
+# x <- c(2, 9, 1, 5, 10, 1, 1, 5, 7, 10, 2, 9, 10, 3, 1, 6, 7, 1, 5,
+# 3, 3, 10, 1, 7, 5, 9, 9, 8, 4, 4, 5, 6, 2, 10, 6, 5, 10, 4, 10,
+# 6, 8, 3, 4, 4, 8, 1, 4, 4, 10, 5)
 # tbl <- unsafe_table(x)
 # cw <- cumsum(tbl$w) / sum(tbl$w)
 # cbind(tbl$x, tbl$w, cumsum(tbl$w), cw)
+#
+# Hmisc::wtd.quantile(tbl$x, tbl$w, (0:5)/5)
+# Hmisc::wtd.quantile(tbl$x, 2 * tbl$w, (0:5)/5)
+# Hmisc::wtd.quantile(tbl$x, (79/50)*tbl$w, (0:5)/5)
+#
 # quantile(x, (1:4)/5)
 # unsafe_unweighted_quantile(x, (1:4)/5)
 
 unsafe_unweighted_quantile <- function(x, probs) {
   tbl <- unsafe_table(x)
   cw <- cumsum(tbl$w) / sum(tbl$w)
-  approx(cw, tbl$x, probs, rule = 2)
+  n <- length(cw)
+  approx(cw, tbl$x, yright = tbl$x[n], probs,
+         method = 'constant', rule = 2)
 }
 
 unsafe_table <- function(x) {
