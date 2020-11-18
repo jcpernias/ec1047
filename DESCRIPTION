@@ -14,7 +14,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/jcpernias/ec1047
 BugReports: https://github.com/jcpernias/ec1047/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports: 
     tibble,
     Hmisc,

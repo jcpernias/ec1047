@@ -61,7 +61,7 @@ region_table <- setNames(
 #' @noRd
 read_ecv_file <- function(year, type) {
   stopifnot(type %in% c('d', 'h', 'r', 'p'))
-  stopifnot(year %in% 2008:2018)
+  stopifnot(year %in% 2008:2019)
   ecv_file <-
     file.path('data-raw',
               paste0('esudb',
@@ -112,7 +112,7 @@ make_db <- function(year) {
               ydisp_cu = ydisp_hh / cunits)
 }
 
-ecv <- purrr::map_dfr(2008:2018, make_db)
+ecv <- purrr::map_dfr(2008:2019, make_db)
 
 ## Store ecv dataset
 usethis::use_data(ecv, compress = 'xz', overwrite = TRUE)
