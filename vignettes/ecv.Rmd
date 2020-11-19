@@ -16,12 +16,15 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(tibble)
-library(lubridate)
+library(lubridate, warn.conflicts = FALSE)
 library(ggplot2)
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 library(tidyr)
-library(kableExtra)
+library(kableExtra, warn.conflicts = FALSE)
 library(ec1047)
+
+# Suppress summarise info
+options(dplyr.summarise.inform = FALSE)
 ```
 
 # Variables
