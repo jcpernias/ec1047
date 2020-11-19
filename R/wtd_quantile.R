@@ -79,7 +79,7 @@ unsafe_unweighted_quantile <- function(x, probs) {
   tbl <- unsafe_table(x)
   cw <- cumsum(tbl$w) / sum(tbl$w)
   n <- length(cw)
-  approx(cw, tbl$x, yright = tbl$x[n], probs,
+  stats::approx(cw, tbl$x, yright = tbl$x[n], probs,
          method = 'constant', rule = 2)
 }
 
